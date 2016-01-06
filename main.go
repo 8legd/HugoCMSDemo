@@ -37,7 +37,7 @@ func main() {
 	config.QOR.DB.LogMode(true)
 
 	if reset {
-		// setup empty database
+		// reset to an empty database
 		for _, table := range qor.Tables {
 			if err := config.QOR.DB.DropTableIfExists(table).Error; err != nil {
 				panic(err) //TODO be more graceful!
@@ -46,6 +46,12 @@ func main() {
 				panic(err) //TODO be more graceful!
 			}
 		}
+	}
+
+	// Create Hugo's content directory if it doesnt exist
+	// TODO read content dir from config
+	if _, err := os.Stat("./content"); os.IsNotExist(err) {
+		err = os.MkdirAll("./content", os.ModePerm)
 	}
 
 	admin := qor.SetupAdmin()
@@ -58,6 +64,8 @@ func main() {
 	for _, path := range []string{"css", "fonts", "images", "js", "system"} {
 		mux.Handle(fmt.Sprintf("/%s/", path), http.FileServer(http.Dir("static")))
 	}
+
+	mux.Handle("/", http.FileServer(http.Dir("public")))
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", config.QOR.Port), mux); err != nil {
 		handleError(err)
