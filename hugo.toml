@@ -1,0 +1,6 @@
+baseurl = "/"
+staticdir = "public"
+publishdir = "site"
+languageCode = "en"
+disableRSS = true
+MetaDataFormat = "toml"
