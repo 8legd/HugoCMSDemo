@@ -4,6 +4,7 @@
 # Generated files
 hugocmsdemo.db
 config.json
+static/*
 public/*
 
 

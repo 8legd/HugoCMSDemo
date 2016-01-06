@@ -52,9 +52,11 @@ func main() {
 
 	mux := http.NewServeMux()
 	admin.MountTo("/admin", mux)
-	// system is where QOR admin will upload files e.g. images
+	// `system` is where QOR admin will upload files e.g. images - we map this to Hugo's static dir along with other static assets
+	// TODO read static dir from config
+	// TODO read static assets list from config
 	for _, path := range []string{"css", "fonts", "images", "js", "system"} {
-		mux.Handle(fmt.Sprintf("/%s/", path), http.FileServer(http.Dir("public")))
+		mux.Handle(fmt.Sprintf("/%s/", path), http.FileServer(http.Dir("static")))
 	}
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", config.QOR.Port), mux); err != nil {
