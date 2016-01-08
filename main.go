@@ -54,10 +54,10 @@ func main() {
 		err = os.MkdirAll("./content", os.ModePerm)
 	}
 
-	admin := qor.SetupAdmin()
-
 	mux := http.NewServeMux()
-	admin.MountTo("/admin", mux)
+
+	mux.Handle("/", http.FileServer(http.Dir("public")))
+
 	// `system` is where QOR admin will upload files e.g. images - we map this to Hugo's static dir along with other static assets
 	// TODO read static dir from config
 	// TODO read static assets list from config
@@ -65,7 +65,8 @@ func main() {
 		mux.Handle(fmt.Sprintf("/%s/", path), http.FileServer(http.Dir("static")))
 	}
 
-	mux.Handle("/", http.FileServer(http.Dir("public")))
+	admin := qor.SetupAdmin()
+	admin.MountTo("/admin", mux)
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", config.QOR.Port), mux); err != nil {
 		handleError(err)

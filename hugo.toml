@@ -1,9 +1,6 @@
 baseurl = "/"
-staticdir = "static"
-publishdir = "public"
 languageCode = "en"
 disableRSS = true
-MetaDataFormat = "toml"
 [[menu.main]]
   name = "Home"
   weight = 1
