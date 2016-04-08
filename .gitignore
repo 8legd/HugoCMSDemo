@@ -2,13 +2,12 @@
 */.DS_Store
 
 # Generated files
-hugocmsdemo.db
+hugo_cms_demo.db
 config.json
-static/*
+static/system/*
 public/*
 data/*
 content/*
-
 
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
